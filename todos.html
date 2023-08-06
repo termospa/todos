@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>TODO</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+window.onload = function () {
+update_todos();
+}
+
+function update_todos() {
+    let todos = "";
+for (let key in localStorage) {
+   if(localStorage.getItem(key)!==null)
+   todos +='<li class="todo"><input type="checkbox" value="' + key + '">&nbsp;&nbsp;' + localStorage.getItem(key) + '&nbsp;&nbsp;<button type="buttton" onclick="deleteFromLS(' + key + ')">Delete</button></li>';
+
+}
+let collected_todos = document.querySelector('#todos');
+    collected_todos.innerHTML = todos;
+                         }
+function addToLS(todo) {
+    window.localStorage.setItem(Date.now(),todo);
+update_todos();
+}
+function deleteFromLS(key){
+    window.localStorage.removeItem(key);
+update_todos();
+}
+function deleteSelected () {
+let selected_todos = document.querySelectorAll('li.todo input:checked');
+for (let todo of selected_todos) {
+     deleteFromLS(todo.value);
+}
+update_todos();
+}
+</script>
+</head>
+<body>
+<label for="todos">Todos<br>
+<ul id="todos"></ul>
+ </label>
+<form>
+<label for="add_todo">add todo<br>
+<textarea name="todo" rows=5></textarea><br>
+<input name="add_todo" type="button" value="Add" onclick="addToLS(this.form.todo.value)">
+<input name="del_todos" type="button" value="Delete selected" onclick="deleteSelected()">
+</label>
+</form>
+</body>
+</html>
